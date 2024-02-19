@@ -30,10 +30,10 @@ class Bookmark:
     def __init__(self, name: str, freq: str, mode: str) -> None:
         self.name = name
         self.frequency = int(float(freq.replace(",", ".")) * 1000000)
-        mode = mode.upper()
-        if (mode == "FM"):
-            mode = "NFM"
-        self.modulation = mode.upper()
+        mode = mode.lower()
+        if (mode == "fm"):
+            mode = "nfm"
+        self.modulation = mode
 
 def bookmarks_list_to_json(bookmarks_list: list[Bookmark]) -> str:
     """
