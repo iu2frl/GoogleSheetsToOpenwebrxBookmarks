@@ -2,6 +2,7 @@ import os
 import os.path
 import json
 import logging
+from datetime import datetime
 import time
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -119,6 +120,7 @@ def main():
     Fetch data every 15 minutes from Google Sheets and sends it to OWRX
     """
     while True:
+        logging.info("Executing at %s", datetime.now())
         sheets_to_owrx()
         time.sleep(60  * 15)  # Waiting 15 minutes before next request to avoid DDo
 
