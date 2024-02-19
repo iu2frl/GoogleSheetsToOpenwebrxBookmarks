@@ -95,14 +95,21 @@ def sheets_to_owrx():
 
         for row in values:
             logging.info("Found bookmark: %s, %s, %s", row[7], row[0], row[8])
-            bookmark = Bookmark(row[7], row[0], row[8])
-            bookmarks.append(bookmark)
+            try:
+                bookmark = Bookmark(row[7], row[0], row[8])
+                bookmarks.append(bookmark)
+            except:
+                logging.warning("Cannot process line with name %s", row[7])            
 
-        json_data = bookmarks_list_to_json(bookmarks)
-        if not os.path.exists("output"):
-            os.makedirs("output")
-        with open("./output/bookmarks.json", 'w', encoding="UTF-8") as file:
-            file.write(json_data)
+        if len(bookmarks) > 0:
+            logging.info("Writing bookmarks to OWRX")
+            json_data = bookmarks_list_to_json(bookmarks)
+            if not os.path.exists("output"):
+                os.makedirs("output")
+            with open("./output/bookmarks.json", 'w', encoding="UTF-8") as file:
+                file.write(json_data)
+        else:
+            logging.info("Nothing to write")
 
     except HttpError as err:
         logging.error("Cannot get data from Google Sheets, error: %s", err)
